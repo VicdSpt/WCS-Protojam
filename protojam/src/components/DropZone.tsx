@@ -9,7 +9,7 @@ function DropZone({ droppedBlocks }: DropZoneProps) {
   const { setNodeRef, isOver } = useDroppable({ id: "dropzone" });
 
   return (
-    <div ref={setNodeRef} style={{ width: 300, height: 300 }}>
+    <div className={`min-h-24 w-full border-2 border-dashed rounded-lg flex flex-wrap gap-2 p-2 ${isOver ? "border-blue-500 bg-blue-200" : "border-gray-400 bg-blue-100"}`} ref={setNodeRef}>
       {droppedBlocks.map((block) => (
         <span key={block.id}>{block.content}</span>
       ))}

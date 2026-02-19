@@ -6,14 +6,17 @@ interface CodeBlockProps {
 }
 
 function CodeBlock({ block }: CodeBlockProps) {
-  const { ref, listeners, attributes } = useDraggable({id: block.id});
+  const { setNodeRef, listeners, attributes } = useDraggable({id: block.id});
 
   return (
-    <div>
-      <button ref={ref} {...listeners} {...attributes}>
-        {block.content}
-      </button>
-    </div>
+    <button
+      ref={setNodeRef}
+      className="px-3 py-1 bg-gray-300 rounded font-mono text-2xl cursor-grab"
+      {...listeners}
+      {...attributes}
+    >
+      {block.content}
+    </button>
   );
 }
 

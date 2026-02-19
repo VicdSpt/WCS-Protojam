@@ -1,44 +1,89 @@
 import { useState } from "react";
-import { type ExerciseType, type CodeBlock } from "../types";
+import { type ExerciseType, type CodeBlock as CodeBlockType } from "../types";
 import CodeBlock from "./CodeBlock";
 import DropZone from "./DropZone";
-import { DndContext } from "@dnd-kit/core";
+import {
+  DndContext,
+  useSensor,
+  useSensors,
+  PointerSensor,
+  DragOverlay,
+} from "@dnd-kit/core";
 import type { DragEndEvent } from "@dnd-kit/core";
-
+import type { DragStartEvent } from "@dnd-kit/core";
 
 interface ExerciseProps {
   exercise: ExerciseType;
   onCorrect: () => void;
 }
 
-function Exercices({ exercise, onCorrect }: ExerciseProps) {
-  const [droppedBlocks, setDroppedBlocks] = useState<CodeBlock[]>([]);
+function Exercises({ exercise, onCorrect }: ExerciseProps) {
+  const [droppedBlocks, setDroppedBlocks] = useState<CodeBlockType[]>([]);
+  const [activeBlock, setActiveBlock] = useState<CodeBlockType | null>(
+    null,
+  );
 
-  const handleDragEnd = (event: DragEndEvent) => {
-    const draggedBlockId = event.active.id
-    const foundBlock = exercise.blocks.find(block => block.id === draggedBlockId)
-    if(foundBlock){
-        setDroppedBlocks(prev => [...prev, foundBlock])
-    }
+  const handleDragStart = (event: DragStartEvent) => {
+    const found = exercise.blocks.find((block) => block.id === event.active.id);
+    if (found) setActiveBlock(found);
   };
 
-  const isCorrect = droppedBlocks.map(myBlock => myBlock.id).join(",") === exercise.answer.join(",")
+  const handleDragEnd = (event: DragEndEvent) => {
+    const draggedBlockId = event.active.id;
+    const foundBlock = exercise.blocks.find(
+      (block) => block.id === draggedBlockId,
+    );
+    if (
+      foundBlock &&
+      event.over?.id === "dropzone" &&
+      !droppedBlocks.find((b) => b.id === foundBlock.id)
+    ) {
+      setDroppedBlocks((prev) => [...prev, foundBlock]);
+    }
+    setActiveBlock(null);
+  };
+
+  const isCorrect =
+    droppedBlocks.map((myBlock) => myBlock.id).join(",") ===
+    exercise.answer.join(",");
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
+  );
 
   return (
-    <DndContext onDragEnd={handleDragEnd}>
-      <div>
-        <div>
-          <div>{exercise.question}</div>
+    <DndContext sensors={sensors} onDragEnd={handleDragEnd} onDragStart={handleDragStart}>
+      <div className="min-h-screen bg-gray-100 flex flex-col items-center p-8">
+        <DragOverlay>
+          {activeBlock ? <CodeBlock block={activeBlock} /> : null}
+        </DragOverlay>
+        <div className="text-2xl font-bold mb-6">
+          <div className="flex flex-wrap gap-2 mb-6">{exercise.question}</div>
         </div>
-        {exercise.blocks.map((block) => (
-          <CodeBlock key={block.id} block={block} />
-        ))}
+        <div className="flex flex-row flex-wrap gap-2 mb-6">
+          {exercise.blocks.map((block) => (
+            <CodeBlock key={block.id} block={block} />
+          ))}
+        </div>
 
         <DropZone droppedBlocks={droppedBlocks} />
-        <button onClick={() => {if(isCorrect){onCorrect()}}}>Check Answer</button>
+        <button
+          className="mt-4 px-6 bg-blue-500 text-white rounded-lg hover:bg-blue-700 cursor-pointer"
+          onClick={() => {
+            if (isCorrect) {
+              onCorrect();
+            }
+          }}
+        >
+          Check Answer
+        </button>
       </div>
     </DndContext>
   );
 }
 
-export default Exercices;
+export default Exercises;
