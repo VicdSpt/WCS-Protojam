@@ -8,6 +8,8 @@ function App() {
   const [score, setScore] = useState(0);
   const currentExercise = ExercisesData[currentIndex];
 
+  const [life, setLife] = useState(5);
+
   const handleCorrect = () => {
     setScore(score + 1);
     if (currentIndex < ExercisesData.length - 1) {
@@ -21,6 +23,12 @@ function App() {
         <nav className="bg-gray-200 shadow px-8 py-4 flex justify-center items-center">
           <h1>Code Block Game 🧩</h1>
           <p>Current Score: {score}</p>
+          <p>
+            Lifes:
+            {Array.from({ length: life }).map((_, i) => (
+              <span key={i}>❤️</span>
+            ))}
+          </p>
         </nav>
         <Exercises exercise={currentExercise} onCorrect={handleCorrect} />
       </div>
