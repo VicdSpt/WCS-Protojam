@@ -23,16 +23,20 @@ function App() {
 
   return (
     <>
-      <div className="min-h-screen">
-        <nav className="bg-gray-200 shadow px-8 py-4 flex justify-center items-center">
-          <h1>Code Block Game 🧩</h1>
-          <p>Current Score: {score}</p>
-          <p>
-            Lifes:
-            {Array.from({ length: life }).map((_, i) => (
-              <span key={i}>❤️</span>
-            ))}
-          </p>
+      <div className="min-h-screen bg-linear-to-br from-slate-900 via-indigo-950 to-slate-900">
+        <nav className="bg-white/10 backdrop-blur-md border-b border-white/10 px-8 py-4 flex justify-between items-center">
+          <h1 className="text-white font-bold text-xl tracking-tight">Code Block Game 🧩</h1>
+          <div className="flex items-center gap-6">
+            <div className="flex items-center gap-2 bg-white/10 rounded-full px-4 py-1.5">
+              <span className="text-indigo-300 text-sm font-semibold">Score</span>
+              <span className="text-white font-bold">{score}</span>
+            </div>
+            <div className="flex items-center gap-1">
+              {Array.from({ length: life }).map((_, i) => (
+                <span key={i} className="text-lg">❤️</span>
+              ))}
+            </div>
+          </div>
         </nav>
         <Exercises exercise={currentExercise} onCorrect={handleCorrect} onWrong={handleWrong}/>
       </div>

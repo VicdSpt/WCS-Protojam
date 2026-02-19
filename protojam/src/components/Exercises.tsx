@@ -60,24 +60,33 @@ function Exercises({ exercise, onCorrect, onWrong }: ExerciseProps) {
       onDragEnd={handleDragEnd}
       onDragStart={handleDragStart}
     >
-      <div className="min-h-screen bg-gray-100 flex flex-col items-center p-8">
+      <div className="min-h-screen flex flex-col items-center p-8">
         <DragOverlay>
           {activeBlock ? <CodeBlock block={activeBlock} /> : null}
         </DragOverlay>
-        <div className="text-2xl font-bold mb-6">
-          <div className="flex flex-wrap gap-2 mb-6">{exercise.question}</div>
-        </div>
-        <div className="flex flex-row flex-wrap gap-2 mb-6">
-          {exercise.blocks.map((block) => (
-            <CodeBlock key={block.id} block={block} />
-          ))}
+
+        <div className="w-full max-w-2xl bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 mb-6 shadow-xl">
+          <p className="text-xs uppercase tracking-widest text-indigo-300 font-semibold mb-2">Question</p>
+          <div className="text-white text-center text-lg font-semibold font-mono">{exercise.question}</div>
         </div>
 
-        <DropZone droppedBlocks={droppedBlocks} />
+        <div className="w-full max-w-2xl bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 mb-6 shadow-xl">
+          <p className="text-xs uppercase tracking-widest text-indigo-300 font-semibold mb-4">Blocks</p>
+          <div className="flex flex-row flex-wrap gap-3">
+            {exercise.blocks.map((block) => (
+              <CodeBlock key={block.id} block={block} />
+            ))}
+          </div>
+        </div>
 
-        <div>
+        <div className="w-full max-w-2xl mb-6">
+          <p className="text-xs uppercase tracking-widest text-indigo-300 font-semibold mb-2">Drop here</p>
+          <DropZone droppedBlocks={droppedBlocks} />
+        </div>
+
+        <div className="flex gap-3">
           <button
-            className="mt-4 px-6 bg-blue-800 text-white rounded-lg hover:bg-blue-700 cursor-pointer"
+            className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl cursor-pointer transition-colors shadow-lg shadow-indigo-500/20"
             onClick={() => {
               if (isCorrect) {
                 onCorrect();
@@ -90,7 +99,7 @@ function Exercises({ exercise, onCorrect, onWrong }: ExerciseProps) {
             Check Answer
           </button>
           <button
-            className="mt-4 px-6 bg-red-800 text-white rounded-lg hover:bg-red-700 cursor-pointer"
+            className="px-6 py-2.5 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl cursor-pointer transition-colors border border-white/20"
             onClick={() => {
               setDroppedBlocks([]);
             }}
