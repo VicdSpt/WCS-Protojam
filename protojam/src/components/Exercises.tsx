@@ -15,9 +15,10 @@ import type { DragStartEvent } from "@dnd-kit/core";
 interface ExerciseProps {
   exercise: ExerciseType;
   onCorrect: () => void;
+  onWrong: () => void;
 }
 
-function Exercises({ exercise, onCorrect }: ExerciseProps) {
+function Exercises({ exercise, onCorrect, onWrong }: ExerciseProps) {
   const [droppedBlocks, setDroppedBlocks] = useState<CodeBlockType[]>([]);
   const [activeBlock, setActiveBlock] = useState<CodeBlockType | null>(null);
 
@@ -41,9 +42,9 @@ function Exercises({ exercise, onCorrect }: ExerciseProps) {
     setActiveBlock(null);
   };
 
-  const isCorrect =
-    droppedBlocks.map((myBlock) => myBlock.id).join(",") ===
-    exercise.answer.join(",");
+  const isCorrect = droppedBlocks.map((myBlock) => myBlock.id).join(",") === exercise.answer.join(",");
+  
+  
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -81,12 +82,19 @@ function Exercises({ exercise, onCorrect }: ExerciseProps) {
               if (isCorrect) {
                 onCorrect();
                 setDroppedBlocks([]);
+              } else {
+                onWrong()
               }
             }}
           >
             Check Answer
           </button>
-          <button className="mt-4 px-6 bg-red-800 text-white rounded-lg hover:bg-red-700 cursor-pointer" onClick={() => {setDroppedBlocks([])}}>
+          <button
+            className="mt-4 px-6 bg-red-800 text-white rounded-lg hover:bg-red-700 cursor-pointer"
+            onClick={() => {
+              setDroppedBlocks([]);
+            }}
+          >
             Reset
           </button>
         </div>

@@ -17,6 +17,10 @@ function App() {
     }
   };
 
+  const handleWrong = () => {
+    setLife(life - 1);
+  }
+
   return (
     <>
       <div className="min-h-screen">
@@ -30,7 +34,7 @@ function App() {
             ))}
           </p>
         </nav>
-        <Exercises exercise={currentExercise} onCorrect={handleCorrect} />
+        <Exercises exercise={currentExercise} onCorrect={handleCorrect} onWrong={handleWrong}/>
       </div>
     </>
   );
