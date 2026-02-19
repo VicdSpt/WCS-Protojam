@@ -4,7 +4,7 @@ import { type ExerciseType } from "../types";
 const exercises: ExerciseType[] = [
   {
     id: 1,
-    question: "Write the correct sentence: console.log('hello')",
+    question: "Write the correct sentence:",
     blocks: [
       { id: 4, content: "print" }, // trap block!
       { id: 2, content: "'hello'" },
@@ -15,7 +15,7 @@ const exercises: ExerciseType[] = [
   },
   {
     id: 2,
-    question: "Write the correct sentence: let x = 5;",
+    question: "Write the correct sentence:",
     blocks: [
       { id: 10, content: "var" }, // trap block!
       { id: 7, content: " = " },
@@ -28,7 +28,7 @@ const exercises: ExerciseType[] = [
   },
   {
     id: 3,
-    question: "Write the correct sentence: if (x > 10) {}",
+    question: "Write the correct sentence:",
     blocks: [
       { id: 17, content: "while" }, // trap block!
       { id: 13, content: " > " },
@@ -42,7 +42,7 @@ const exercises: ExerciseType[] = [
   },
   {
     id: 4,
-    question: "Write the correct sentence: function greet() {}",
+    question: "Write the correct sentence:",
     blocks: [
       { id: 23, content: "=>" }, // trap block!
       { id: 20, content: "()" },
@@ -55,7 +55,7 @@ const exercises: ExerciseType[] = [
   },
   {
     id: 5,
-    question: "Write the correct sentence: return true;",
+    question: "Write the correct sentence:",
     blocks: [
       { id: 27, content: "false" }, // trap block!
       { id: 25, content: "true" },
@@ -66,7 +66,7 @@ const exercises: ExerciseType[] = [
   },
   {
     id: 6,
-    question: "Write the correct sentence: const name = 'Alex';",
+    question: "Write the correct sentence:",
     blocks: [
       { id: 31, content: "'Alex'" },
       { id: 33, content: "let" }, // trap block!
@@ -79,7 +79,7 @@ const exercises: ExerciseType[] = [
   },
   {
     id: 7,
-    question: "Write the correct sentence: for (let i = 0; i < 3; i++) {}",
+    question: "Write the correct sentence:",
     blocks: [
       { id: 42, content: "while" }, // trap block!
       { id: 36, content: "i" },
@@ -95,7 +95,7 @@ const exercises: ExerciseType[] = [
   },
   {
     id: 8,
-    question: "Write the correct sentence: x += 2;",
+    question: "Write the correct sentence:",
     blocks: [
       { id: 47, content: "-=" }, // trap block!
       { id: 45, content: "2" },
@@ -107,7 +107,7 @@ const exercises: ExerciseType[] = [
   },
   {
     id: 9,
-    question: "Write the correct sentence: console.error('fail');",
+    question: "Write the correct sentence:",
     blocks: [
       { id: 52, content: "console.log" }, // trap block!
       { id: 50, content: ")" },
@@ -119,7 +119,7 @@ const exercises: ExerciseType[] = [
   },
   {
     id: 10,
-    question: "Write the correct sentence: typeof x === 'number';",
+    question: "Write the correct sentence:",
     blocks: [
       { id: 56, content: "'number'" },
       { id: 58, content: "'string'" }, // trap block!

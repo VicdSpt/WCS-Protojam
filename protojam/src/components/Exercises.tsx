@@ -19,9 +19,7 @@ interface ExerciseProps {
 
 function Exercises({ exercise, onCorrect }: ExerciseProps) {
   const [droppedBlocks, setDroppedBlocks] = useState<CodeBlockType[]>([]);
-  const [activeBlock, setActiveBlock] = useState<CodeBlockType | null>(
-    null,
-  );
+  const [activeBlock, setActiveBlock] = useState<CodeBlockType | null>(null);
 
   const handleDragStart = (event: DragStartEvent) => {
     const found = exercise.blocks.find((block) => block.id === event.active.id);
@@ -36,7 +34,7 @@ function Exercises({ exercise, onCorrect }: ExerciseProps) {
     if (
       foundBlock &&
       event.over?.id === "dropzone" &&
-      !droppedBlocks.find((b) => b.id === foundBlock.id)
+      !droppedBlocks.find((myBlock) => myBlock.id === foundBlock.id)
     ) {
       setDroppedBlocks((prev) => [...prev, foundBlock]);
     }
@@ -56,7 +54,11 @@ function Exercises({ exercise, onCorrect }: ExerciseProps) {
   );
 
   return (
-    <DndContext sensors={sensors} onDragEnd={handleDragEnd} onDragStart={handleDragStart}>
+    <DndContext
+      sensors={sensors}
+      onDragEnd={handleDragEnd}
+      onDragStart={handleDragStart}
+    >
       <div className="min-h-screen bg-gray-100 flex flex-col items-center p-8">
         <DragOverlay>
           {activeBlock ? <CodeBlock block={activeBlock} /> : null}
@@ -71,16 +73,23 @@ function Exercises({ exercise, onCorrect }: ExerciseProps) {
         </div>
 
         <DropZone droppedBlocks={droppedBlocks} />
-        <button
-          className="mt-4 px-6 bg-blue-500 text-white rounded-lg hover:bg-blue-700 cursor-pointer"
-          onClick={() => {
-            if (isCorrect) {
-              onCorrect();
-            }
-          }}
-        >
-          Check Answer
-        </button>
+
+        <div>
+          <button
+            className="mt-4 px-6 bg-blue-800 text-white rounded-lg hover:bg-blue-700 cursor-pointer"
+            onClick={() => {
+              if (isCorrect) {
+                onCorrect();
+                setDroppedBlocks([]);
+              }
+            }}
+          >
+            Check Answer
+          </button>
+          <button className="mt-4 px-6 bg-red-800 text-white rounded-lg hover:bg-red-700 cursor-pointer" onClick={() => {setDroppedBlocks([])}}>
+            Reset
+          </button>
+        </div>
       </div>
     </DndContext>
   );
