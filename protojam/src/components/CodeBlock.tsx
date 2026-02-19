@@ -1,8 +1,8 @@
-import { CodeBlock } from "../types";
-import { useDraggable } from "@dnd-kit/react";
+import { type CodeBlock as CodeBlockType} from "../types";
+import { useDraggable } from "@dnd-kit/core";
 
 interface CodeBlockProps {
-  block: CodeBlock;
+  block: CodeBlockType;
 }
 
 function CodeBlock({ block }: CodeBlockProps) {

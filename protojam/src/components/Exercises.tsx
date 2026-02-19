@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Exercise, type CodeBlock } from "../types";
+import { type ExerciseType, type CodeBlock } from "../types";
 import CodeBlock from "./CodeBlock";
 import DropZone from "./DropZone";
 import { DndContext } from "@dnd-kit/core";
@@ -7,7 +7,7 @@ import type { DragEndEvent } from "@dnd-kit/core";
 
 
 interface ExerciseProps {
-  exercise: Exercise;
+  exercise: ExerciseType;
   onCorrect: () => void;
 }
 
@@ -16,7 +16,7 @@ function Exercices({ exercise, onCorrect }: ExerciseProps) {
 
   const handleDragEnd = (event: DragEndEvent) => {
     const draggedBlockId = event.active.id
-    const foundBlock = exercise.blocks.find(CodeBlock => CodeBlock.id === draggedBlockId)
+    const foundBlock = exercise.blocks.find(block => block.id === draggedBlockId)
     if(foundBlock){
         setDroppedBlocks(prev => [...prev, foundBlock])
     }

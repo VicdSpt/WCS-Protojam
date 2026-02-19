@@ -1,5 +1,5 @@
 import { useDroppable } from "@dnd-kit/core";
-import { CodeBlock } from "../types";
+import { type CodeBlock } from "../types";
 
 interface DropZoneProps {
   droppedBlocks: CodeBlock[];

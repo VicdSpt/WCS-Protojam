@@ -1,12 +1,12 @@
 import { useState } from "react";
 import "./App.css";
-import { exercises } from "./data/exercices";
-import Exercices from "./components/Exercices";
+import ExercisesData  from "./data/exercises";
+import Exercises from "./components/Exercises";
 
 function App() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [score, setScore] = useState(0);
-  const currentExercise = exercises[currentIndex]
+  const currentExercise = ExercisesData[currentIndex]
 
   const handleCorrect = () => {
     setScore(score + 1);
@@ -16,7 +16,7 @@ function App() {
   return (
     <>
       <p>Current Score: {score}</p>
-      <Exercices exercise={currentExercise} onCorrect={handleCorrect}/>
+      <Exercises exercise={currentExercise} onCorrect={handleCorrect}/>
     </>
   );
 }

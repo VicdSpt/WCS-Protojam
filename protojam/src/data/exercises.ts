@@ -1,6 +1,7 @@
-import { Exercise } from "../types";
+import { type ExerciseType } from "../types";
 
-export const exercises: Exercise[] = [
+
+const exercises: ExerciseType[] = [
   {
     id: 1,
     question: "Reconstruct: console.log('hello')",
@@ -130,3 +131,5 @@ export const exercises: Exercise[] = [
     answer: [53, 54, 55, 56, 57],
   },
 ];
+
+export default exercises;
