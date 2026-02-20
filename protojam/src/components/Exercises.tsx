@@ -80,7 +80,9 @@ function Exercises({ exercise, onCorrect, onWrong }: ExerciseProps) {
             Blocks
           </p>
           <div className="flex flex-row flex-wrap gap-3">
-            {exercise.blocks.map((block) => (
+            {exercise.blocks
+            .filter((block) => !droppedBlocks.find((dropped) => dropped.id === block.id))
+            .map((block) => (
               <CodeBlock key={block.id} block={block} />
             ))}
           </div>
