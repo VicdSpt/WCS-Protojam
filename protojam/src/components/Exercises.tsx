@@ -21,6 +21,7 @@ interface ExerciseProps {
 function Exercises({ exercise, onCorrect, onWrong }: ExerciseProps) {
   const [droppedBlocks, setDroppedBlocks] = useState<CodeBlockType[]>([]);
   const [activeBlock, setActiveBlock] = useState<CodeBlockType | null>(null);
+  const [feedback, setFeedback] = useState<"correct" | "wrong" | null>(null);
 
   const handleDragStart = (event: DragStartEvent) => {
     const found = exercise.blocks.find((block) => block.id === event.active.id);
@@ -42,9 +43,9 @@ function Exercises({ exercise, onCorrect, onWrong }: ExerciseProps) {
     setActiveBlock(null);
   };
 
-  const isCorrect = droppedBlocks.map((myBlock) => myBlock.id).join(",") === exercise.answer.join(",");
-  
-  
+  const isCorrect =
+    droppedBlocks.map((myBlock) => myBlock.id).join(",") ===
+    exercise.answer.join(",");
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -66,12 +67,18 @@ function Exercises({ exercise, onCorrect, onWrong }: ExerciseProps) {
         </DragOverlay>
 
         <div className="w-full max-w-2xl bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 mb-6 shadow-xl">
-          <p className="text-xs uppercase tracking-widest text-indigo-300 font-semibold mb-2">Question</p>
-          <div className="text-white text-center text-lg font-semibold font-mono">{exercise.question}</div>
+          <p className="text-xs uppercase tracking-widest text-indigo-300 font-semibold mb-2">
+            Question
+          </p>
+          <div className="text-white text-center text-lg font-semibold font-mono">
+            {exercise.question}
+          </div>
         </div>
 
         <div className="w-full max-w-2xl bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 mb-6 shadow-xl">
-          <p className="text-xs uppercase tracking-widest text-indigo-300 font-semibold mb-4">Blocks</p>
+          <p className="text-xs uppercase tracking-widest text-indigo-300 font-semibold mb-4">
+            Blocks
+          </p>
           <div className="flex flex-row flex-wrap gap-3">
             {exercise.blocks.map((block) => (
               <CodeBlock key={block.id} block={block} />
@@ -80,20 +87,35 @@ function Exercises({ exercise, onCorrect, onWrong }: ExerciseProps) {
         </div>
 
         <div className="w-full max-w-2xl mb-6">
-          <p className="text-xs uppercase tracking-widest text-indigo-300 font-semibold mb-2">Drop here</p>
+          <p className="text-xs uppercase tracking-widest text-indigo-300 font-semibold mb-2">
+            Drop here
+          </p>
           <DropZone droppedBlocks={droppedBlocks} />
         </div>
+
+        {feedback && (
+          <div className={`w-full max-w-2xl text-center font-bold py-3 rounded-xl mb-3 ${
+            feedback === "correct"
+              ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"
+              : "bg-red-500/20 text-red-300 border border-red-500/30"
+          }`}>
+            {feedback === "correct" ? "✓ Correct!" : "✗ Wrong!"}
+          </div>
+        )}
 
         <div className="flex gap-3">
           <button
             className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl cursor-pointer transition-colors shadow-lg shadow-indigo-500/20"
             onClick={() => {
               if (isCorrect) {
+                setFeedback("correct");
                 onCorrect();
                 setDroppedBlocks([]);
               } else {
-                onWrong()
+                setFeedback("wrong");
+                onWrong();
               }
+              setTimeout(() => setFeedback(null), 1500);
             }}
           >
             Check Answer
